@@ -1,0 +1,250 @@
+<html>
+	<head>
+		<style>
+			#svgBox{
+				position:absolute;
+				top:350px;
+				left:0px;
+			}
+		</style>
+		<script>	
+			function update()
+			{
+				var kt = document.getElementById("kt").value;
+				var vt = document.getElementById("vt").value;
+				var pt = document.getElementById("pt").value;
+				var p1x = document.getElementById("p1x").value;
+				var p1y = document.getElementById("p1y").value;
+				var p2x = document.getElementById("p2x").value;
+				var p2y = document.getElementById("p2y").value;
+				var p3x = document.getElementById("p3x").value;
+				var p3y = document.getElementById("p3y").value;
+				var p4x = document.getElementById("p4x").value;
+				var p4y = document.getElementById("p4y").value;
+				var timeslider = document.getElementById("tslide").value;
+				var time = timeslider/100;
+				var timecheck = document.getElementById("time");
+				timecheck.innerHTML = time;
+
+				var mainPath = document.getElementById("mainPath");
+				mainPath.setAttribute("stroke-width", kt);
+				var mainPathString = "M" + p1x + "," + p1y + " C" + p2x + "," + p2y + " " + p3x + "," + p3y + " " + p4x + "," + p4y;
+				var mainPathD = mainPath.setAttribute("d", mainPathString);
+
+				var P12Path = document.getElementById("P12Path");
+				P12Path.setAttribute("stroke-width", vt);
+				var P12PathString = "M" + p1x + "," + p1y + " L" + p2x + "," + p2y;
+				P12Path.setAttribute("d", P12PathString);
+				var P23Path = document.getElementById("P23Path");
+				P23Path.setAttribute("stroke-width", vt);
+				var P23PathString = "M" + p2x + "," + p2y + " L" + p3x + "," + p3y;
+				P23Path.setAttribute("d", P23PathString);
+				var P34Path = document.getElementById("P34Path");
+				P34Path.setAttribute("stroke-width", vt);
+				var P34PathString = "M" + p3x + "," + p3y + " L" + p4x + "," + p4y;
+				P34Path.setAttribute("d", P34PathString);
+
+				var P1C = document.getElementById("P1C");
+				P1C.setAttribute("r", pt);
+				P1C.setAttribute("cx", p1x);
+				P1C.setAttribute("cy", p1y);
+				var P2C = document.getElementById("P2C");
+				P2C.setAttribute("r", pt);
+				P2C.setAttribute("cx", p2x);
+				P2C.setAttribute("cy", p2y);
+				var P3C = document.getElementById("P3C");
+				P3C.setAttribute("r", pt);
+				P3C.setAttribute("cx", p3x);
+				P3C.setAttribute("cy", p3y);
+				var P4C = document.getElementById("P4C");
+				P4C.setAttribute("r", pt);
+				P4C.setAttribute("cx", p4x);
+				P4C.setAttribute("cy", p4y);
+
+				var P12x = p2x - p1x;
+				var P12y = p2y - p1y;
+				var P23x = p3x - p2x;
+				var P23y = p3y - p2y;
+				var P34x = p4x - p3x;
+				var P34y = p4y - p3y;
+
+				var Q1x = eval(parseFloat(p1x) + parseFloat(P12x) * parseFloat(time));
+				var Q1y = eval(parseFloat(p1y) + parseFloat(P12y) * parseFloat(time));
+				var Q2x = eval(parseFloat(p2x) + parseFloat(P23x) * parseFloat(time));
+				var Q2y = eval(parseFloat(p2y) + parseFloat(P23y) * parseFloat(time));
+				var Q3x = eval(parseFloat(p3x) + parseFloat(P34x) * parseFloat(time));
+				var Q3y = eval(parseFloat(p3y) + parseFloat(P34y) * parseFloat(time));
+
+				var Q12Path = document.getElementById("Q12Path");
+				Q12Path.setAttribute("stroke-width", vt);
+				Q12PathString = "M" + Q1x + "," + Q1y + " L" + Q2x + "," + Q2y;
+				Q12Path.setAttribute("d", Q12PathString);
+				var Q23Path = document.getElementById("Q23Path");
+				Q23Path.setAttribute("stroke-width", vt);
+				Q23PathString = "M" + Q2x + "," + Q2y + " L" + Q3x + "," + Q3y;
+				Q23Path.setAttribute("d", Q23PathString);
+
+				var Q1C = document.getElementById("Q1C");
+				Q1C.setAttribute("r", pt);
+				Q1C.setAttribute("cx", Q1x);
+				Q1C.setAttribute("cy", Q1y);
+				var Q2C = document.getElementById("Q2C");
+				Q2C.setAttribute("r", pt);
+				Q2C.setAttribute("cx", Q2x);
+				Q2C.setAttribute("cy", Q2y);
+				var Q3C = document.getElementById("Q3C");
+				Q3C.setAttribute("r", pt);
+				Q3C.setAttribute("cx", Q3x);
+				Q3C.setAttribute("cy", Q3y);
+
+				var Q12x = Q2x - Q1x;
+				var Q12y = Q2y - Q1y;
+				var Q23x = Q3x - Q2x;
+				var Q23y = Q3y - Q2y;
+
+				var R1x = eval(parseFloat(Q1x) + parseFloat(Q12x) * parseFloat(time));
+				var R1y = eval(parseFloat(Q1y) + parseFloat(Q12y) * parseFloat(time));
+				var R2x = eval(parseFloat(Q2x) + parseFloat(Q23x) * parseFloat(time));
+				var R2y = eval(parseFloat(Q2y) + parseFloat(Q23y) * parseFloat(time));
+
+				var R12Path = document.getElementById("R12Path");
+				R12Path.setAttribute("stroke-width", vt);
+				var R12PathString = "M" + R1x + "," + R1y + " L" + R2x + "," + R2y;
+				R12Path.setAttribute("d", R12PathString);
+
+				var R1C = document.getElementById("R1C");
+				R1C.setAttribute("r", pt);
+				R1C.setAttribute("cx", R1x);
+				R1C.setAttribute("cy", R1y);
+
+				var R2C = document.getElementById("R2C");
+				R2C.setAttribute("r", pt);
+				R2C.setAttribute("cx", R2x);
+				R2C.setAttribute("cy", R2y);
+
+				var R12x = R2x - R1x;
+				var R12y = R2y - R1y;
+
+				var Sx = eval(parseFloat(R1x) + parseFloat(R12x) * parseFloat(time));
+				var Sy = eval(parseFloat(R1y) + parseFloat(R12y) * parseFloat(time));
+
+				var SC = document.getElementById("SC");
+				SC.setAttribute("r", pt);
+				SC.setAttribute("cx", Sx);
+				SC.setAttribute("cy", Sy);
+			}
+			var drag1 = false;
+			var drag2 = false;
+			var drag3 = false;
+			var drag4 = false;
+			function get1()
+			{
+				drag1 = true;
+			}
+			function get2()
+			{
+				drag2 = true;
+			}
+			function get3()
+			{
+				drag3 = true;
+			}
+			function get4()
+			{
+				drag4 = true;
+			}
+			document.onmousemove = function(e){
+				if(drag1)
+				{
+					document.getElementById("p1x").value = e.pageX;
+					document.getElementById("p1y").value = e.pageY - 350;
+					update();
+				}
+				else if(drag2)
+				{
+					document.getElementById("p2x").value = e.pageX;
+					document.getElementById("p2y").value = e.pageY - 350;
+					update();
+				}
+				else if(drag3)
+				{
+					document.getElementById("p3x").value = e.pageX;
+					document.getElementById("p3y").value = e.pageY - 350;
+					update();
+				}
+				else if(drag4)
+				{
+					document.getElementById("p4x").value = e.pageX;
+					document.getElementById("p4y").value = e.pageY - 350;
+					update();
+				}
+			}
+			document.onmouseup = function(e)
+			{
+				drag1 = false;
+				drag2 = false;
+				drag3 = false;
+				drag4 = false;
+			}
+			var animate = false;
+			function play()
+			{
+				animate = true;
+			}
+			function stop()
+			{
+				animate = false;
+			}
+			setInterval(function(){
+				if(animate)
+				{
+					var timeslider = document.getElementById("tslide").value;
+					timeslider++;
+					if(timeslider > 100)
+					{
+						timeslider = 0;
+					}
+					document.getElementById("tslide").value = timeslider;
+					update();
+				}
+			}, 33);
+		</script>
+	</head>
+	<body onload="update()">
+		<div id="settingsBox">
+			<p>Punkt 1: <input type="text" id="p1x" value="50" /> <input type="text" id="p1y" value="30" /></p>
+			<p>Punkt 2: <input type="text" id="p2x" value="100" /> <input type="text" id="p2y" value="400" /></p>
+			<p>Punkt 3: <input type="text" id="p3x" value="200" /> <input type="text" id="p3y" value="50" /></p>
+			<p>Punkt 4: <input type="text" id="p4x" value="300" /> <input type="text" id="p4y" value="300" /></p>
+			<p>Linienstärke (Kurve): <input type="text" id="kt" value="3" /></p>
+			<p>Linienstärke (Verbindungen): <input type="text" id="vt" value="1" /></p>
+			<p>Punktgröße: <input type="text" id="pt" value="5" /></p>
+			<p><input type="button" value="OK" id="submitButton" onclick="update()"/> <input type="button" value="Abspielen" id="play" onclick="play()" /> <input type="button" value="Stop" id="stop" onclick="stop()" /></p>
+			<p>Time: <input type="range" min="1" max="100" value = "25" id="tslide" oninput="update()" /><div id="time"></div></p>
+		</div>
+		<div id="svgBox">
+			<svg width="1200" height="1200">
+				<path id="mainPath" d="M100,300 C70,50 330,50 300,300" fill="none" stroke="#000000" stroke-width="5" />
+				<path id="P12Path" d="" fill="none" stroke="#FF0000" stroke-width="2" />
+				<path id="P23Path" d="" fill="none" stroke="#FF0000" stroke-width="2" />
+				<path id="P34Path" d="" fill="none" stroke="#FF0000" stroke-width="2" />
+				<circle id="P1C" cx="" cy="" r="4" fill="#FF0000" onmousedown="get1()" />
+				<circle id="P2C" cx="" cy="" r="4" fill="#FF0000" onmousedown="get2()" />
+				<circle id="P3C" cx="" cy="" r="4" fill="#FF0000" onmousedown="get3()" />
+				<circle id="P4C" cx="" cy="" r="4" fill="#FF0000" onmousedown="get4()" />
+
+				<path id="Q12Path" d="" fill="none" stroke="#00FF00" stroke-width="2" />
+				<path id="Q23Path" d="" fill="none" stroke="#00FF00" stroke-width="2" />
+				<circle id="Q1C" cx="" cy="" r="4" fill="#00FF00" />
+				<circle id="Q2C" cx="" cy="" r="4" fill="#00FF00" />
+				<circle id="Q3C" cx="" cy="" r="4" fill="#00FF00" />
+
+				<path id="R12Path" d="" fill="none" stroke="#0000FF" stroke-width="2" />
+				<circle id="R1C" cx="" cy="" r="4" fill="#0000FF" />
+				<circle id="R2C" cx="" cy="" r="4" fill="#0000FF" />
+
+				<circle id="SC" cx="" cy="" r="4" fill="#888888" />
+			</svg>
+		</div>
+	</body>
+</html>
